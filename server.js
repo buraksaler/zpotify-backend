@@ -22,7 +22,7 @@ const artistRouter = require('./routes/artistRoute');
 const songRouter = require('./routes/songRoute');
 const playlistRouter = require('./routes/playlistRoute');
 
-app.use('/user', userRouter);
+app.use('/',userRouter);
 app.use('/artist', artistRouter);
 app.use('/song', songRouter);
 app.use('/playlist', playlistRouter);
