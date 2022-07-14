@@ -2,7 +2,7 @@ const Playlist = require('../models/playlistModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc get all playlists
-//@route GET /playlist/
+//@route GET api/playlist/
 const getPlaylists = asyncHandler(async (req, res) => {
   Playlist.find()
   .then(playlists => res.status(200).json(playlists))
@@ -10,7 +10,7 @@ const getPlaylists = asyncHandler(async (req, res) => {
 });
 
 //@desc add playlist
-//@route POST /playlist/add
+//@route POST api/playlist/add
 const addPlaylist = asyncHandler(async (req, res) => {
   const {name, photoUrl, userId, songsIds } = req.body;
   
@@ -32,7 +32,7 @@ const addPlaylist = asyncHandler(async (req, res) => {
 });
 
 //@desc Delete playlist
-//@route /playlist/deletePlaylist/:id
+//@route api/playlist/deletePlaylist/:id
 const deletePlaylist = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   Playlist.findByIdAndRemove(id)

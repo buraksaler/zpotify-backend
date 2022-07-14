@@ -2,7 +2,7 @@ const Artist = require('../models/artistModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc Get all artists
-//@route GET /artist/
+//@route GET api/artist/
 const getArtists = async (req, res) => {
   Artist.find()
   .then(artists => res.status(200).json(artists))
@@ -10,7 +10,7 @@ const getArtists = async (req, res) => {
 }
 
 //@desc add artist
-//@route POST /artist/add
+//@route POST api/artist/add
 const addArtist = asyncHandler(async (req, res) => {
   const { name, photoUrl } = req.body;
 
@@ -28,7 +28,7 @@ const addArtist = asyncHandler(async (req, res) => {
 });
 
 //@desc Delete artist
-//@route /artist/deleteArtist/:id
+//@route api/artist/deleteArtist/:id
 const deleteArtist = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   Artist.findByIdAndRemove(id)

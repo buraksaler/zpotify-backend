@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 
 // @desc Get all users
-// @route GET /user/
+// @route GET api/user/
 const getUsers = asyncHandler( async(req, res) => {
   User.find()
   .then(users => res.status(200).json(users))
@@ -12,7 +12,7 @@ const getUsers = asyncHandler( async(req, res) => {
 });
 
 // @desc Register user
-// @route POST /user/register
+// @route POST api/user/register
 const registerUser = asyncHandler( async(req, res) => {
   const {username, firstName, lastName, email, phoneNumber, profilePicture, password} = req.body;
 
@@ -54,7 +54,7 @@ const registerUser = asyncHandler( async(req, res) => {
 });
 
 //@desc Delete user
-//@route /user/deleteUser/:id
+//@route api/user/deleteUser/:id
 const deleteUser = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   User.findByIdAndRemove(id)

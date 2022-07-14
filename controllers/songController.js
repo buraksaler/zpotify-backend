@@ -2,7 +2,7 @@ const Song = require('../models/songModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc get all songs
-//@route GET /song/
+//@route GET api/song/
 const getSongs = asyncHandler(async (req, res) => {
   Song.find()
   .then(songs => res.status(200).json(songs))
@@ -10,7 +10,7 @@ const getSongs = asyncHandler(async (req, res) => {
 });
 
 //@desc add song
-//@route POST /song/add
+//@route POST api/song/add
 const addSong = asyncHandler(async (req, res) => {
   const {songName, artistId, photoUrl, fileUrl } = req.body;
 
@@ -31,7 +31,7 @@ const addSong = asyncHandler(async (req, res) => {
 });
 
 //@desc Delete song
-//@route /song/deleteSong/:id
+//@route api/song/deleteSong/:id
 const deleteSong = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   Song.findByIdAndRemove(id)
