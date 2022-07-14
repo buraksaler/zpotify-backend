@@ -42,8 +42,23 @@ const deleteArtist = asyncHandler(async(req, res) => {
   });
 });
 
+//@desc get artist by ID
+//route api/artist/getArtistByID
+const getArtistByID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  Artist.findById(id).exec((error, song) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(song){
+      res.status(200).json({song});
+    }
+  })
+});
+
 module.exports = {
   getArtists,
   addArtist,
-  deleteArtist
+  deleteArtist,
+  getArtistByID
 }

@@ -68,9 +68,23 @@ const deleteUser = asyncHandler(async(req, res) => {
   });
 });
 
+//@desc get user by ID
+//route api/user/getUserByID
+const getUserByID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  User.findById(id).exec((error, song) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(song){
+      res.status(200).json({song});
+    }
+  })
+});
 
 module.exports = {
   getUsers,
   registerUser,
-  deleteUser
+  deleteUser,
+  getUserByID
 }

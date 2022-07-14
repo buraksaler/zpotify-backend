@@ -46,6 +46,19 @@ const deletePlaylist = asyncHandler(async(req, res) => {
   });
 });
 
+//@desc get Playlist by ID
+//route api/playlist/getPlaylistByID
+const getPlaylistByID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  Playlist.findById(id).exec((error, song) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(song){
+      res.status(200).json({song});
+    }
+  })
+});
 
 //TODO addSongToPlaylist
 
@@ -53,4 +66,5 @@ module.exports = {
   getPlaylists,
   addPlaylist,
   deletePlaylist,
+  getPlaylistByID
 }
