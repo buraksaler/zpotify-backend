@@ -45,8 +45,23 @@ const deleteSong = asyncHandler(async(req, res) => {
   });
 });
 
+//@desc get song by ID
+//route api/song/getSongByID
+const getSongByID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  Song.findById(id).exec((error, song) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(song){
+      res.status(200).json({song});
+    }
+  })
+});
+
 module.exports = {
   getSongs,
   addSong,
-  deleteSong
+  deleteSong,
+  getSongByID
 }
