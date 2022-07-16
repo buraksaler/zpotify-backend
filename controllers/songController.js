@@ -1,4 +1,5 @@
 const Song = require('../models/songModel');
+const Artist = require('../models/artistModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc get all songs
@@ -59,9 +60,31 @@ const getSongByID = asyncHandler(async(req,res) => {
   })
 });
 
+//@desc get songs by Artist ID
+//route api/song/getSongsByArtistID
+const getSongsByArtistID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  Artist.findById(id).exec((error, artist) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(artist){
+      Song.find({artistId: artist._id}).exec((error, song) => {
+        if(error) return res.status(400).json({error});
+        if(song) {
+          res.status(200).json({song});
+        }else{
+          return res.status(404).json({errorMessage: "There is no song for this artist!"});
+        }
+      });
+    }
+  })
+});
+
 module.exports = {
   getSongs,
   addSong,
   deleteSong,
-  getSongByID
+  getSongByID,
+  getSongsByArtistID
 }
