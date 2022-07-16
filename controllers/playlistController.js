@@ -1,4 +1,5 @@
 const Playlist = require('../models/playlistModel');
+const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 
 //@desc get all playlists
@@ -60,11 +61,33 @@ const getPlaylistByID = asyncHandler(async(req,res) => {
   })
 });
 
+//@desc get Playlists by User ID
+//route api/playlist/getPlaylistsByUserID
+const getPlaylistsByUserID = asyncHandler(async(req,res) => {
+  const id = req.params['id'];
+  User.findById(id).exec((error, user) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(user){
+      Playlist.find({userId: user._id}).exec((error, playlist) => {
+        if(error) return res.status(400).json({error});
+        if(playlist) {
+          res.status(200).json({playlist});
+        }else{
+          return res.status(404).json({errorMessage: "There is no playlist for this user!"});
+        }
+      });
+    }
+  })
+});
+
 //TODO addSongToPlaylist
 
 module.exports = {
   getPlaylists,
   addPlaylist,
   deletePlaylist,
-  getPlaylistByID
+  getPlaylistByID,
+  getPlaylistsByUserID
 }
