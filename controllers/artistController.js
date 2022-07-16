@@ -60,7 +60,7 @@ const getArtistByID = asyncHandler(async(req,res) => {
 //route api/artist/getArtistByName
 const getArtistByName = asyncHandler(async(req,res) => {
   const name = req.params['name'];
-  Artist.find({name: name}).exec((error, song) => {
+  Artist.findOne({name: name}).exec((error, song) => {
     if(error){
       return res.status(400).json({error});
     }
