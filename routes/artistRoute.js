@@ -5,6 +5,6 @@ router.get('/getArtists', getArtists);
 router.post('/addArtist', addArtist);
 router.delete('/deleteArtist/:id', deleteArtist);
 router.get('/getArtistByID/:id', getArtistByID);
-router.get('/getArtistByName/:name', getArtistByName);
+router.get('/getArtistByName', getArtistByName);
 
 module.exports = router;

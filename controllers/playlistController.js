@@ -51,12 +51,12 @@ const deletePlaylist = asyncHandler(async(req, res) => {
 //route api/playlist/getPlaylistByID
 const getPlaylistByID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
-  Playlist.findById(id).exec((error, song) => {
+  Playlist.findById(id).exec((error, playlist) => {
     if(error){
       return res.status(400).json({error});
     }
-    if(song){
-      res.status(200).json({song});
+    if(playlist){
+      res.status(200).json({playlist});
     }
   })
 });

@@ -46,12 +46,12 @@ const deleteArtist = asyncHandler(async(req, res) => {
 //route api/artist/getArtistByID
 const getArtistByID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
-  Artist.findById(id).exec((error, song) => {
+  Artist.findById(id).exec((error, artist) => {
     if(error){
       return res.status(400).json({error});
     }
-    if(song){
-      res.status(200).json({song});
+    if(artist){
+      res.status(200).json({artist});
     }
   })
 });
@@ -59,13 +59,13 @@ const getArtistByID = asyncHandler(async(req,res) => {
 //@desc get artist by name
 //route api/artist/getArtistByName
 const getArtistByName = asyncHandler(async(req,res) => {
-  const name = req.params['name'];
-  Artist.findOne({name: name}).exec((error, song) => {
+  const {name} = req.body;
+  Artist.findOne({name: name}).exec((error, artist) => {
     if(error){
       return res.status(400).json({error});
     }
-    if(song){
-      res.status(200).json({song});
+    if(artist){
+      res.status(200).json({artist});
     }
   })
 });

@@ -72,12 +72,12 @@ const deleteUser = asyncHandler(async(req, res) => {
 //route api/user/getUserByID
 const getUserByID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
-  User.findById(id).exec((error, song) => {
+  User.findById(id).exec((error, user) => {
     if(error){
       return res.status(400).json({error});
     }
-    if(song){
-      res.status(200).json({song});
+    if(user){
+      res.status(200).json({user});
     }
   })
 });
