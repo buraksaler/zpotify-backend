@@ -56,9 +56,24 @@ const getArtistByID = asyncHandler(async(req,res) => {
   })
 });
 
+//@desc get artist by name
+//route api/artist/getArtistByName
+const getArtistByName = asyncHandler(async(req,res) => {
+  const name = req.params['name'];
+  Artist.find({name: name}).exec((error, song) => {
+    if(error){
+      return res.status(400).json({error});
+    }
+    if(song){
+      res.status(200).json({song});
+    }
+  })
+});
+
 module.exports = {
   getArtists,
   addArtist,
   deleteArtist,
-  getArtistByID
+  getArtistByID,
+  getArtistByName
 }
