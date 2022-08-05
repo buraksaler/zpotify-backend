@@ -22,7 +22,8 @@ const artistRouter = require('./routes/artistRoute');
 const songRouter = require('./routes/songRoute');
 const playlistRouter = require('./routes/playlistRoute');
 
-app.use('/api/user',userRouter);
+app.use(express.json());
+app.use('/api/user', userRouter);
 app.use('/api/artist', artistRouter);
 app.use('/api/song', songRouter);
 app.use('/api/playlist', playlistRouter);

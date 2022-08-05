@@ -12,6 +12,8 @@ const playlistSchema = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId ,
     ref: 'User',
+    required: [true, 'Please add a user'],
+    
   },
   songsIds: [{
     type: mongoose.Schema.Types.ObjectId ,

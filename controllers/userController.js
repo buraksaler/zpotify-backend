@@ -11,6 +11,30 @@ const getUsers = asyncHandler( async(req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// @desc login user
+// @route POST api/user/loginUser
+const loginUser = asyncHandler(async(req, res) => {
+  const {username, password} = req.body
+
+  const user = await User.findOne({username});
+
+  if(user && (await bcrypt.compare(password, user.password))){
+    
+    res.status(201).json({
+      _id: user.id,
+      username: user.username,
+      email: user.email, 
+    });  
+
+  }else{
+    res.status(400);
+    throw new Error('Invalid credentials');
+  }
+
+  });
+
+
+
 // @desc Register user
 // @route POST api/user/register
 const registerUser = asyncHandler( async(req, res) => {
@@ -44,6 +68,9 @@ const registerUser = asyncHandler( async(req, res) => {
     password: hashedPassword,
   });
   
+  
+  if(newUser){
+
   newUser.save()
   .then(() => res.status(201).json({
     _id: newUser.id,
@@ -51,6 +78,11 @@ const registerUser = asyncHandler( async(req, res) => {
     email: newUser.email, 
   }))
   .catch(err => res.status(400).json('Error: ' + err));
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
+  }
+
 });
 
 //@desc Delete user
@@ -86,5 +118,6 @@ module.exports = {
   getUsers,
   registerUser,
   deleteUser,
-  getUserByID
+  getUserByID,
+  loginUser
 }
