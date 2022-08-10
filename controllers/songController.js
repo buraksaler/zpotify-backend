@@ -2,8 +2,8 @@ const Song = require('../models/songModel');
 const Artist = require('../models/artistModel');
 const asyncHandler = require('express-async-handler');
 
-//@desc get all songs
-//@route GET api/song/
+// @desc get all songs
+// @route GET api/song/
 const getSongs = asyncHandler(async (req, res) => {
   Song.find()
   .then(songs => res.status(200).json(songs))

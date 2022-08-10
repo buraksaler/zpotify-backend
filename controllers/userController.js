@@ -5,14 +5,40 @@ const asyncHandler = require('express-async-handler');
 
 // @desc Get all users
 // @route GET api/user/
+// @access Private
 const getUsers = asyncHandler( async(req, res) => {
   User.find()
   .then(users => res.status(200).json(users))
   .catch(err => res.status(400).json('Error: ' + err));
-});
+}); 
+
+// @desc Get me
+// @route GET api/user/me
+// @access Private
+const getMe = asyncHandler( async(req, res) => {
+  const {_id, username, email} = await User.findById(req.user.id)
+
+  res.status(200).json({
+    id: _id,
+    username,
+    email
+  })
+}); 
+
+
+// @desc Get user data
+// @route GET /api/user/me
+// @access Private
+//Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({id}, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  })
+}
 
 // @desc login user
 // @route POST api/user/loginUser
+// @access Public
 const loginUser = asyncHandler(async(req, res) => {
   const {username, password} = req.body
 
@@ -24,6 +50,7 @@ const loginUser = asyncHandler(async(req, res) => {
       _id: user.id,
       username: user.username,
       email: user.email, 
+      token: generateToken(user.id)
     });  
 
   }else{
@@ -37,6 +64,7 @@ const loginUser = asyncHandler(async(req, res) => {
 
 // @desc Register user
 // @route POST api/user/register
+// @access Public
 const registerUser = asyncHandler( async(req, res) => {
   const {username, firstName, lastName, email, phoneNumber, profilePicture, password} = req.body;
 
@@ -75,7 +103,8 @@ const registerUser = asyncHandler( async(req, res) => {
   .then(() => res.status(201).json({
     _id: newUser.id,
     username: newUser.username,
-    email: newUser.email, 
+    email: newUser.email,
+    token: generateToken(newUser.id)
   }))
   .catch(err => res.status(400).json('Error: ' + err));
   } else {
@@ -87,6 +116,7 @@ const registerUser = asyncHandler( async(req, res) => {
 
 //@desc Delete user
 //@route api/user/deleteUser/:id
+// @access Private
 const deleteUser = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   User.findByIdAndRemove(id)
@@ -102,6 +132,7 @@ const deleteUser = asyncHandler(async(req, res) => {
 
 //@desc get user by ID
 //route api/user/getUserByID
+// @access Private
 const getUserByID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
   User.findById(id).exec((error, user) => {
@@ -119,5 +150,6 @@ module.exports = {
   registerUser,
   deleteUser,
   getUserByID,
-  loginUser
+  loginUser,
+  getMe
 }

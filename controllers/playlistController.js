@@ -3,16 +3,18 @@ const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const Song = require('../models/songModel');
 
-//@desc get all playlists
-//@route GET api/playlist/
+// @desc get all playlists
+// @route GET api/playlist/
+// @access Private
 const getPlaylists = asyncHandler(async (req, res) => {
   Playlist.find()
   .then(playlists => res.status(200).json(playlists))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//@desc add playlist
-//@route POST api/playlist/add
+// @desc add playlist
+// @route POST api/playlist/add
+// @access Public
 const addPlaylist = asyncHandler(async (req, res) => {
   const {name, photoUrl, userId, songsIds } = req.body;
   
@@ -33,9 +35,10 @@ const addPlaylist = asyncHandler(async (req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//@desc Delete playlist
-//@route api/playlist/deletePlaylist/:id
-const deletePlaylist = asyncHandler(async(req, res) => {
+// @desc Delete playlistById
+// @route api/playlist/deletePlaylistById/:id
+// @access Public
+const deletePlaylistById = asyncHandler(async(req, res) => {
   const id = req.params['id'];
   Playlist.findByIdAndRemove(id)
   .exec((err, playlist) => {
@@ -48,8 +51,9 @@ const deletePlaylist = asyncHandler(async(req, res) => {
   });
 });
 
-//@desc get Playlist by ID
-//route api/playlist/getPlaylistByID
+// @desc get Playlist by ID
+// route api/playlist/getPlaylistByID
+// @access Private
 const getPlaylistByID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
   Playlist.findById(id).exec((error, playlist) => {
@@ -62,8 +66,9 @@ const getPlaylistByID = asyncHandler(async(req,res) => {
   })
 });
 
-//@desc get Playlists by User ID
-//route api/playlist/getPlaylistsByUserID
+// @desc get Playlists by User ID
+// route api/playlist/getPlaylistsByUserID
+// @access Public
 const getPlaylistsByUserID = asyncHandler(async(req,res) => {
   const id = req.params['id'];
   User.findById(id).exec((error, user) => {
@@ -83,8 +88,9 @@ const getPlaylistsByUserID = asyncHandler(async(req,res) => {
   })
 });
 
-//@desc add Song to Playlist
-//route api/playlist/addSongToPlaylist
+// @desc add Song to Playlist
+// route api/playlist/addSongToPlaylist
+// @access Public
 const addSongToPlaylist = asyncHandler(async(req,res) => {
   const {playlistId, songId} = req.body;
   Playlist.findById(playlistId).exec((error, playlist) => {
@@ -97,8 +103,9 @@ const addSongToPlaylist = asyncHandler(async(req,res) => {
   })
 });
 
-//@desc remove Song from Playlist
-//route api/playlist/removeSongFromPlaylist
+// @desc remove Song from Playlist
+// route api/playlist/removeSongFromPlaylist
+// @access Public
 const removeSongFromPlaylist = asyncHandler(async(req,res) => {
   const {playlistId, songId} = req.body;
   Playlist.findById(playlistId).exec((error, playlist) => {
@@ -114,7 +121,7 @@ const removeSongFromPlaylist = asyncHandler(async(req,res) => {
 module.exports = {
   getPlaylists,
   addPlaylist,
-  deletePlaylist,
+  deletePlaylistById,
   getPlaylistByID,
   getPlaylistsByUserID,
   addSongToPlaylist,

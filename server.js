@@ -27,7 +27,10 @@ app.use('/api/user', userRouter);
 app.use('/api/artist', artistRouter);
 app.use('/api/song', songRouter);
 app.use('/api/playlist', playlistRouter);
-
+app.use((req, res, next) => {
+  res.json('Request Type:', req.method)
+  next()
+})
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
